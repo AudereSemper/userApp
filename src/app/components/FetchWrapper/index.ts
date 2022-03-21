@@ -1,5 +1,5 @@
 // eslint-disable-next-line import/prefer-default-export
-export function fetchWrapper(endpoint) {
+export function fetchWrapper(endpoint, data) {
   const headers = { 'Content-Type': 'application/json' };
 
   const config: any = {
@@ -10,11 +10,11 @@ export function fetchWrapper(endpoint) {
   };
   return window
     .fetch(`${process.env.REACT_APP_API_URL}${endpoint}`, config)
-    .then(async (response) => {
-      const data = await response.json();
-      if (response.ok) {
+    .then(async () => {
+      const userCreated = Math.floor(Math.random() * 11);
+      if (userCreated > 8) {
         return data;
       }
-      return Promise.reject(data);
+      throw new Error('User not created');
     });
 }

@@ -8,5 +8,7 @@
     "homePage.new_user": "New user (fr)",
     "save": "Save (fr)",
     "firstName": "First name (fr)",
-    "imageUrl": "Image url (fr)"
+    "imageUrl": "Image url (fr)",
+    "editActionTitle": "You are editing the user (fr): "
+
 }

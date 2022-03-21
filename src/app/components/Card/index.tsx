@@ -1,6 +1,7 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
+import { setIsEdit } from 'src/app/pages/AddNewUser/addNewReducer';
 import IUser from './type';
 import MainInfo from './Subcomponents/MainInfo';
 import CustomButton from '../CustomButton';
@@ -15,6 +16,9 @@ const placeHolderAvatar = 'https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar
 
 const Card = ({ userInfo, isRowCard }: IUser) => {
   const isDarkTheme = useSelector((state: any) => state.themeSliceReducer.theme) === 'dark';
+  const isEditing = useSelector((state: any) => state.addNewSliceReducer.editAction);
+  console.log('🚀 ~ file: index.tsx ~ line 20 ~ Card ~ isEditing', isEditing);
+  const dispatch = useDispatch();
   const {
     image,
     firstName,
@@ -23,7 +27,7 @@ const Card = ({ userInfo, isRowCard }: IUser) => {
   const avatar = image.length <= 0 ? placeHolderAvatar : image;
 
   const editUser = (userToEdit) => {
-    console.log('🚀 ~ file: index.tsx ~ line 26 ~ editUser ~ userToEdit', userToEdit);
+    dispatch(setIsEdit({ isEdit: true, userToEdit }));
   };
 
   return (
@@ -32,7 +36,7 @@ const Card = ({ userInfo, isRowCard }: IUser) => {
         !isRowCard ? (
           <CardContainer key={firstName} isDarkTheme={isDarkTheme}>
             <MainInfo
-              image={image}
+              image={avatar}
               name={firstName}
             />
           </CardContainer>

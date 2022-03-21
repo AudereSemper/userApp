@@ -1,27 +1,33 @@
 import {
-  takeEvery, all, call, put,
+  takeEvery,
+  all,
+  call,
+  put,
+  select,
 } from 'redux-saga/effects';
 import {
-  setIsLoadingStatus,
-  setUserData,
+  tryAddUser,
+  setUserAddFailsCounter,
   addUser,
 } from 'src/app/pages/AddNewUser/addNewReducer';
 import { fetchWrapper } from '../../components/FetchWrapper/index';
 
 function* getUser() {
-  const endPoint = 'character';
+  const endPoint = 'user';
+  const userAddFailsCounter = yield select((state: any) => state.addNewSliceReducer.failsCounter);
+  const data = yield select((state: any) => state.addNewSliceReducer.userToAdd);
   try {
-    const response = yield call(fetchWrapper, endPoint);
-    yield put(setIsLoadingStatus(false));
-    yield put(setUserData(response));
+    const response = yield call(fetchWrapper, endPoint, data);
+    yield put(setUserAddFailsCounter(0));
+    yield put(addUser(response));
   } catch (error) {
-    // eslint-disable-next-line no-console
-    console.log('error', error);
+    const failsCounter = userAddFailsCounter + 1;
+    yield put(setUserAddFailsCounter(failsCounter));
   }
 }
 
 export default function* root() {
   yield all([
-    takeEvery(addUser.type, getUser),
+    takeEvery(tryAddUser.type, getUser),
   ]);
 }

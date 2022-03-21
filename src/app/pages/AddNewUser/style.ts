@@ -14,6 +14,10 @@ export const AddNewContentRow = styled.div`
     width: 100%;
 `;
 
+export const ButtonsContainer = styled.div`
+    display: flex;
+`;
+
 export const Column = styled.div`
     display: flex;
     flex-direction: column;

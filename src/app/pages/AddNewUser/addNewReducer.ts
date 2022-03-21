@@ -1,35 +1,55 @@
 /* eslint-disable no-param-reassign */
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { IAddNewState } from './types';
+import { IAddNewState, EditActionType, UserType } from './types';
 
 const initialState: IAddNewState = {
   users: [],
   loading: false,
+  editAction: {
+    isEdit: false,
+    userToEdit: null,
+  },
+  userToAdd: {},
+  failsCounter: 0,
+  retryAction: false,
 };
 
 export const addNewSlice = createSlice({
   name: 'addNewSlice',
   initialState,
   reducers: {
-    addUser: (state, action: PayloadAction<{ name: string; id: string; image?: string; }>) => {
+    tryAddUser: (state, action: PayloadAction<UserType>) => {
+      state.userToAdd = action.payload;
+    },
+    setRetryAction: (state, action: PayloadAction<boolean>) => {
+      state.retryAction = action.payload;
+    },
+    addUser: (state, action: PayloadAction<UserType>) => {
       state.users = [...state.users, action.payload];
     },
-    editUser: (state, action: PayloadAction<[]>) => {
-      state.users = action.payload;
+    setIsEdit: (state, action: PayloadAction<EditActionType>) => {
+      state.editAction = action.payload;
     },
-    setUserData: (state, action: PayloadAction<any>) => {
+    editUser: (state, action: PayloadAction<[]>) => {
       state.users = action.payload;
     },
     setIsLoadingStatus: (state, action: PayloadAction<boolean>) => {
       state.loading = action.payload;
     },
+    setUserAddFailsCounter: (state, action: PayloadAction<number>) => {
+      state.failsCounter = action.payload;
+      console.log('🚀 ~ file: addNewReducer.ts ~ line 37 ~ action.payload', typeof action.payload);
+    },
   },
 });
 
 export const {
-  setUserData,
   addUser,
   setIsLoadingStatus,
+  setIsEdit,
+  tryAddUser,
+  setUserAddFailsCounter,
+  setRetryAction,
 } = addNewSlice.actions;
 
 export default addNewSlice.reducer;
