@@ -1,12 +1,12 @@
 import {
   takeEvery, all, call, put,
 } from 'redux-saga/effects';
-import { fetchWrapper } from '../../components/FetchWrapper/index';
 import {
   setIsLoadingStatus,
   setUserData,
-  startFetchingUser,
-} from './homeReducer';
+  addUser,
+} from 'src/app/pages/AddNewUser/addNewReducer';
+import { fetchWrapper } from '../../components/FetchWrapper/index';
 
 function* getUser() {
   const endPoint = 'character';
@@ -22,6 +22,6 @@ function* getUser() {
 
 export default function* root() {
   yield all([
-    takeEvery(startFetchingUser.type, getUser),
+    takeEvery(addUser.type, getUser),
   ]);
 }

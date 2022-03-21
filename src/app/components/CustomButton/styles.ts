@@ -4,6 +4,8 @@ interface ButtonProps {
   bgColor?: string,
   textColor?: string,
   isDarkTheme: boolean;
+  border?: string,
+  customFontSize?: string,
 }
 
 interface ButtonContainerProps {
@@ -21,11 +23,11 @@ export const Button = styled.button`
   margin: 10px;
   background-color: ${(props: ButtonProps) => (props.bgColor ? props.bgColor : 'transparent')};
   cursor: pointer;
-  font-size: 26px;
+  font-size:  ${(props: ButtonProps) => (props.customFontSize ? props.customFontSize : '26px')};
   color: ${(props: ButtonProps) => (props.isDarkTheme ? 'white' : 'black')};
   border-radius: 5px;
   height: 30px;
-  border:none;
+  border:  ${(props: ButtonProps) => (props.border ? props.border : 'none')};;
   outline: 0;
   &:active {
     background-color: grey;

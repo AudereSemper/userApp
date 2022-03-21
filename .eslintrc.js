@@ -52,9 +52,16 @@ module.exports = {
     {
       files: ["*.ts", "*.tsx"],
       rules: {
+        "react/jsx-props-no-spreading": "off",
         "react/prop-types": "off",
         "react/require-default-props": "off",
         "@typescript-eslint/no-unused-vars": [2, { args: "none" }],
+        "jsx-a11y/label-has-associated-control": ["error", {
+            "required": {
+              "some": ["nesting", "id"]
+            }
+          }
+        ] 
       },
     },
   ],

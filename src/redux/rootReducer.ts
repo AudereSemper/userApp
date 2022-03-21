@@ -1,12 +1,12 @@
 import { combineReducers } from '@reduxjs/toolkit';
 import { connectRouter } from 'connected-react-router';
 import themeSliceReducer from 'src/assets/themeReducer';
-import homeSliceReducer from 'src/app/pages/Home/homeReducer';
+import addNewSliceReducer from 'src/app/pages/AddNewUser/addNewReducer';
 
 const createRootReducer = (history) => combineReducers({
   router: connectRouter(history),
   themeSliceReducer,
-  homeSliceReducer,
+  addNewSliceReducer,
 });
 
 export default createRootReducer;

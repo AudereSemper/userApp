@@ -2,5 +2,11 @@
     "name": "Name (fr)",
     "about": "About (fr)",
     "home" : "Home (fr)",
-    "curiosity": "Curiosity (fr)"
+    "curiosity": "Curiosity (fr)",
+    "aboutText": "About text (fr)",
+    "curiosityText": "Curiosity text (fr)",
+    "homePage.new_user": "New user (fr)",
+    "save": "Save (fr)",
+    "firstName": "First name (fr)",
+    "imageUrl": "Image url (fr)"
 }

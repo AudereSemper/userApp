@@ -8,12 +8,20 @@ export default function CustomButton({
   bgColor,
   onClick,
   selected,
+  border,
+  customFontSize,
 }: CustomButtonProps) {
   const isDarkTheme = useSelector((state: any) => state.themeSliceReducer.theme) === 'dark';
 
   return (
     <ButtonContainer selected={selected || false}>
-      <Button bgColor={bgColor} onClick={onClick} isDarkTheme={isDarkTheme}>
+      <Button
+        bgColor={bgColor}
+        onClick={onClick}
+        isDarkTheme={isDarkTheme}
+        border={border}
+        customFontSize={customFontSize}
+      >
         {text}
       </Button>
     </ButtonContainer>

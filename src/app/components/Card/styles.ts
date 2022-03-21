@@ -47,6 +47,7 @@ export const TextContainer = styled.div`
 
 export const MainTitle = styled.h3<{isDarkTheme: boolean}>`
   font-size: 22px;
+  text-align: center;
   color: ${({ isDarkTheme }) => (isDarkTheme ? 'white' : 'black')};
   margin-bottom: 10px;
 `;
@@ -71,4 +72,11 @@ export const StyledUnorderedList = styled.ul`
 `;
 
 export const StyledListItem = styled.li`
+`;
+
+export const RowContainer = styled.div<{isDarkTheme: boolean}>`
+  display: flex;
+  height: 100px;
+  width: 100%;
+  margin: 20px 0;
 `;

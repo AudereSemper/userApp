@@ -4,7 +4,8 @@ export const LoaderContainer = styled.div`
   display: flex;
   width: 100vw;
   height: 100vh;
-  align-items: center;
+  margin-top: 10%;
+  align-items: flex-start;
   justify-content: center;
 `;
 
