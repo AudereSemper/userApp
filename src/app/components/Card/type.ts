@@ -1,26 +1,9 @@
-interface IrickAndMortyCharacter {
-  characterInfo: {
+interface IUser {
+  userInfo: {
     id: number,
     name: string,
-    status: string,
-    species: string,
-    type: string,
-    gender: string,
-    origin: {
-      name: string,
-      url: string
-    },
-    location: {
-      name: string,
-      url: string,
-    },
     image: string,
-    episode: [
-      string
-    ],
-    url: string,
-    created: string
   }
 }
 
-export default IrickAndMortyCharacter;
+export default IUser;

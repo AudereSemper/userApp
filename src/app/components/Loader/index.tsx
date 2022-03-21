@@ -1,11 +1,9 @@
 import React from 'react';
-import { LoaderContainer, LoadingText } from './styles';
+import { LoaderContainer, Spinner } from './styles';
 
 const Loader = () => (
   <LoaderContainer>
-    <LoadingText>
-      Caricamento
-    </LoadingText>
+    <Spinner />
   </LoaderContainer>
 );
 

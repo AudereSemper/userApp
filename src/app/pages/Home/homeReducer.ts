@@ -4,23 +4,13 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 interface HomeState {
   loading: boolean;
   isFetching: boolean;
-  data: [];
-  page: string;
-  locationId: string | null;
-  location: [];
-  episodeId: string,
-  episode: any,
+  users: [];
 }
 
 const initialState: HomeState = {
   loading: false,
   isFetching: true,
-  page: '',
-  data: [],
-  locationId: '',
-  location: [],
-  episodeId: '',
-  episode: [],
+  users: [],
 };
 
 export const homeSlice = createSlice({
@@ -30,41 +20,17 @@ export const homeSlice = createSlice({
     setIsLoadingStatus: (state, action: PayloadAction<boolean>) => {
       state.loading = action.payload;
     },
-    startFetchingRickAndMortyCharacter: (state) => state,
-    startFetchingRickAndMortyCharacterWithPage: (state, action: PayloadAction<string>) => {
-      state.page = action.payload;
-    },
-    setRickAndMortyCharacterData: (state, action: PayloadAction<any>) => {
-      state.data = action.payload;
-    },
-    startFetchingRickAndMortyLocation: (state, action: PayloadAction<string>) => {
-      state.locationId = action.payload;
-    },
-    setRickAndMortyCharacterLocation: (state, action: PayloadAction<any>) => {
-      state.location = action.payload;
-    },
-    startFetchingRickAndMortyEpisode: (state, action: PayloadAction<string>) => {
-      state.episodeId = action.payload;
-    },
-    setRickAndMortyCharacterEpisode: (state, action: PayloadAction<any>) => {
-      state.episode.push(action.payload);
-    },
-    resetEpisodeReducer: (state) => {
-      state.episode = [];
+    startFetchingUser: (state) => state,
+    setUserData: (state, action: PayloadAction<any>) => {
+      state.users = action.payload;
     },
   },
 });
 
 export const {
-  setRickAndMortyCharacterData,
-  startFetchingRickAndMortyCharacter,
-  startFetchingRickAndMortyCharacterWithPage,
+  setUserData,
   setIsLoadingStatus,
-  resetEpisodeReducer,
-  startFetchingRickAndMortyLocation,
-  setRickAndMortyCharacterLocation,
-  startFetchingRickAndMortyEpisode,
-  setRickAndMortyCharacterEpisode,
+  startFetchingUser,
 } = homeSlice.actions;
 
 export default homeSlice.reducer;

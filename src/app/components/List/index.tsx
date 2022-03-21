@@ -4,8 +4,8 @@ import ListProps from './type';
 
 const List = React.memo(({ list }: ListProps) => (
   <>
-    {list && list.map((character: any) => (
-      <Card key={character.id} characterInfo={character} />
+    {list && list.map((user: any) => (
+      <Card key={user.id} userInfo={user} />
     ))}
   </>
 ));

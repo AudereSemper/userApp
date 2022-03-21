@@ -1,7 +1,7 @@
-import IrickAndMortyCharacter from '../Card/type';
+import IUser from '../Card/type';
 
 interface ListProps {
-  list: IrickAndMortyCharacter[];
+  list: IUser[];
 }
 
 export default ListProps;

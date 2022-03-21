@@ -8,27 +8,23 @@ import {
   StyledRow,
 } from './styles';
 import {
-
-  startFetchingRickAndMortyCharacter,
+  startFetchingUser,
   setIsLoadingStatus,
 } from './homeReducer';
 
 const Home = () => {
   const dispatch = useDispatch();
   const isLoading = useSelector((state: any) => state.homeSliceReducer.loading);
-  const rickAndMortyCharacterData = useSelector((state: any) => state.homeSliceReducer.data);
-  const { results } = rickAndMortyCharacterData;
-  const resultsReady = results !== undefined;
-  const Loading = isLoading && rickAndMortyCharacterData.info && rickAndMortyCharacterData.results;
-
+  const Loading = isLoading;
+  const results = [];
   const chunk = (arr, size) => Array.from({ length: Math.ceil(arr.length / size) }, (v, i) => arr.slice(i * size, i * size + size));
 
   useEffect(() => {
     dispatch(setIsLoadingStatus(true));
-    dispatch(startFetchingRickAndMortyCharacter());
+    dispatch(startFetchingUser());
   }, []);
 
-  const rowsWithContent: any = resultsReady && chunk(results, 3);
+  const rowsWithContent: any = chunk(results, 3);
 
   return (
     <>
@@ -38,13 +34,13 @@ const Home = () => {
             <StyledHomeContainer>
               <StyledListContainer>
                 {
-                  resultsReady ? rowsWithContent.map(
+                  rowsWithContent.map(
                     (singleRow) => (
                       <StyledRow key={singleRow[0].name}>
                         <List list={singleRow} />
                       </StyledRow>
                     ),
-                  ) : <Loader />
+                  )
                 }
               </StyledListContainer>
             </StyledHomeContainer>
