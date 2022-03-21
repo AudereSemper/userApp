@@ -6,7 +6,12 @@ import { MainTitle } from 'src/app/components/Card/styles';
 import CustomButton from 'src/app/components/CustomButton';
 import { useForm } from 'react-hook-form';
 import List from 'src/app/components/List';
-import { setIsEdit, setRetryAction, tryAddUser } from './addNewReducer';
+import {
+  setIsEdit,
+  editUser,
+  setRetryAction,
+  tryAddUser,
+} from './addNewReducer';
 import {
   StyledFormContainer,
   AddNewContentRow,
@@ -37,20 +42,29 @@ const AddNewUser = () => {
   } = useForm({});
 
   const onSubmit = (data) => {
+    if (isEdit) {
+      const listUpdated = usersList.map((user) => {
+        if (user.firstName === userToEdit) {
+          return {
+            firstName: data.firstName,
+            image: data.image,
+          };
+        }
+        return user;
+      });
+      dispatch(editUser(listUpdated));
+      dispatch(setIsEdit({ isEdit: false }));
+      return;
+    }
     dispatch(tryAddUser(data));
     setValue('firstName', '');
-  };
-
-  const handleIsEdit = () => {
-    dispatch(setIsEdit({ isEdit: false }));
-    setValue('firstName', '');
+    setValue('image', '');
   };
 
   useEffect(() => {
     if (isEdit || retryAction) {
       const value = isEdit ? userToEdit : '';
       const retriedName = retryAction ? userToAdd.firstName : '';
-      console.log('🚀 ~ file: index.tsx ~ line 53 ~ useEffect ~ retriedName', retriedName);
       const retriedImage = retryAction ? userToAdd.image : '';
       setValue('firstName', value || retriedName);
       if (retryAction) {
@@ -98,7 +112,7 @@ const AddNewUser = () => {
                   <CustomButton
                     text={t('cancel')}
                     border={border}
-                    onClick={handleIsEdit}
+                    onClick={handleSubmit(onSubmit)}
                     customFontSize="1rem"
                   />
                   )

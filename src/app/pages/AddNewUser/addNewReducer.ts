@@ -48,6 +48,7 @@ export const {
   setIsLoadingStatus,
   setIsEdit,
   tryAddUser,
+  editUser,
   setUserAddFailsCounter,
   setRetryAction,
 } = addNewSlice.actions;
