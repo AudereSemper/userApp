@@ -1,33 +1,52 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import IUser from './type';
 import MainInfo from './Subcomponents/MainInfo';
-import { CardContainer, RowContainer } from './styles';
+import CustomButton from '../CustomButton';
+import {
+  CardContainer,
+  RowContainer,
+  SmallImage,
+  Name,
+} from './styles';
 
-const Card = ({ userInfo }: IUser) => {
+const placeHolderAvatar = 'https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png';
+
+const Card = ({ userInfo, isRowCard }: IUser) => {
   const isDarkTheme = useSelector((state: any) => state.themeSliceReducer.theme) === 'dark';
-
   const {
     image,
-    name,
-    isRowCard,
+    firstName,
   } = userInfo;
+  const { t } = useTranslation();
+  const avatar = image.length <= 0 ? placeHolderAvatar : image;
+
+  const editUser = (userToEdit) => {
+    console.log('🚀 ~ file: index.tsx ~ line 26 ~ editUser ~ userToEdit', userToEdit);
+  };
 
   return (
     <>
       {
         !isRowCard ? (
-          <CardContainer isDarkTheme={isDarkTheme}>
+          <CardContainer key={firstName} isDarkTheme={isDarkTheme}>
             <MainInfo
               image={image}
-              name={name}
+              name={firstName}
             />
           </CardContainer>
         ) : (
-          <RowContainer isDarkTheme={isDarkTheme}>
-            <div>editButton</div>
-            <div>image</div>
-            <div>name</div>
+          <RowContainer key={firstName} isDarkTheme={isDarkTheme}>
+            <CustomButton
+              text={t('edit')}
+              // textColor={regexp.test(currentPath) ? 'white' : 'black'}
+              onClick={() => editUser(firstName)}
+            />
+            <Name isDarkTheme={isDarkTheme}>
+              {firstName}
+            </Name>
+            <SmallImage isDarkTheme={isDarkTheme} imageUrl={avatar} />
           </RowContainer>
         )
       }

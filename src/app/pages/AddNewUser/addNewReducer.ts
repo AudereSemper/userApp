@@ -11,8 +11,11 @@ export const addNewSlice = createSlice({
   name: 'addNewSlice',
   initialState,
   reducers: {
-    addUser: (state, action: PayloadAction<any>) => {
+    addUser: (state, action: PayloadAction<{ name: string; id: string; image?: string; }>) => {
       state.users = [...state.users, action.payload];
+    },
+    editUser: (state, action: PayloadAction<[]>) => {
+      state.users = action.payload;
     },
     setUserData: (state, action: PayloadAction<any>) => {
       state.users = action.payload;

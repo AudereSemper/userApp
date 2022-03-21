@@ -1,10 +1,10 @@
 interface IUser {
   userInfo: {
     id: number,
-    name: string,
+    firstName: string,
     image: string,
-    isRowCard?: boolean,
-  }
+  } 
+  isRowCard?: boolean,
 }
 
 export default IUser;

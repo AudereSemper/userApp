@@ -1,6 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
+import { ErrorMessage } from '@hookform/error-message';
 import { MainTitle } from 'src/app/components/Card/styles';
 import CustomButton from 'src/app/components/CustomButton';
 import { useForm } from 'react-hook-form';
@@ -14,12 +15,13 @@ const whiteBorder = '1px solid white';
 
 const AddNewUser = () => {
   const isDarkTheme = useSelector((state: any) => state.themeSliceReducer.theme) === 'dark';
+  const usersList = useSelector((state: any) => state.addNewSliceReducer.users);
   const dispatch = useDispatch();
   const border = isDarkTheme ? blackBorder : whiteBorder;
   const { t } = useTranslation();
-  const { handleSubmit, register } = useForm();
+  const { handleSubmit, register, formState: { errors } } = useForm();
+
   const onSubmit = (data) => {
-    console.log('🚀 ~ file: index.tsx ~ line 22 ~ AddNewUser ~ data', data);
     dispatch(addUser(data));
   };
 
@@ -35,6 +37,12 @@ const AddNewUser = () => {
               <label htmlFor="firstName">{t('firstName')}</label>
               <input {...register('firstName', { required: true })} />
               <label htmlFor="image">{t('imageUrl')}</label>
+
+              <ErrorMessage
+                errors={errors}
+                name="singleErrorInput"
+                render={() => <p>errore</p>}
+              />
               <input {...register('image')} />
               <CustomButton
                 text={t('save')}
@@ -49,7 +57,7 @@ const AddNewUser = () => {
           <MainTitle isDarkTheme={isDarkTheme}>
             {t('friends')}
           </MainTitle>
-          <List list={[]} />
+          <List list={usersList} isRowList />
         </Column>
       </AddNewContentRow>
     </>

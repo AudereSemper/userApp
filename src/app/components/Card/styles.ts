@@ -37,6 +37,15 @@ export const Image = styled.div<{isDarkTheme: boolean, imageUrl: string}>`
   transform: rotate(-20deg);
 `;
 
+export const SmallImage = styled.div<{ isDarkTheme: boolean, imageUrl: string }>`
+  height: 40px;
+  width: 40px;
+  background-size: cover;
+  border-radius: 50%;
+  border: 2px solid white;
+  background-image: ${({ imageUrl }) => (imageUrl && `url(${imageUrl})`)};
+`;
+
 export const TextContainer = styled.div`
   margin-top: 150px;
   display: flex;
@@ -74,9 +83,19 @@ export const StyledUnorderedList = styled.ul`
 export const StyledListItem = styled.li`
 `;
 
+export const Name = styled.p<{ isDarkTheme: boolean }>`
+  margin: 20px 10px;
+  color: ${({ isDarkTheme }) => (isDarkTheme ? 'white' : 'black')};
+`;
+
 export const RowContainer = styled.div<{isDarkTheme: boolean}>`
   display: flex;
-  height: 100px;
-  width: 100%;
-  margin: 20px 0;
+  align-items: center;
+  padding: 10px;
+  border-radius: 15px;
+  justify-content: space-between;
+  height: 50px;
+  width: 90%;
+  border: ${({ isDarkTheme }) => (isDarkTheme ? '1px solid white' : '1px solid black')};
+  margin: 20px 0px;
 `;
