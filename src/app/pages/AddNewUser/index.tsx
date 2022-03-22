@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
+import { push } from 'connected-react-router';
 import { ErrorMessage } from '@hookform/error-message';
 import { MainTitle } from 'src/app/components/Card/styles';
 import CustomButton from 'src/app/components/CustomButton';
@@ -25,6 +26,8 @@ const whiteBorder = '1px solid white';
 
 const AddNewUser = () => {
   const isDarkTheme = useSelector((state: any) => state.themeSliceReducer.theme) === 'dark';
+  const routerlocation = useSelector((state: any) => state.router.location);
+  const isUserDetail = routerlocation.pathname.includes('/user_detail');
   const usersList = useSelector((state: any) => state.addNewSliceReducer.users);
   const failsCounter = useSelector((state: any) => state.addNewSliceReducer.failsCounter);
   const retryAction = useSelector((state: any) => state.addNewSliceReducer.retryAction);
@@ -32,6 +35,8 @@ const AddNewUser = () => {
   const editAction = useSelector((state: any) => state.addNewSliceReducer.editAction);
   const { isEdit, userToEdit } = editAction;
   const dispatch = useDispatch();
+  const editUserList = usersList.filter((user) => user.firstName !== routerlocation?.state?.user);
+  console.log('🚀 ~ file: index.tsx ~ line 39 ~ AddNewUser ~ editUserList', editUserList);
   const border = isDarkTheme ? whiteBorder : blackBorder;
   const { t } = useTranslation();
   const {
@@ -39,9 +44,18 @@ const AddNewUser = () => {
     register,
     formState: { errors },
     setValue,
+    setError,
   } = useForm({});
 
   const onSubmit = (data) => {
+    const userAlreadyExists = usersList.find((user) => user.firstName === data.firstName);
+    if (userAlreadyExists && !isEdit) {
+      setError('firstName', {
+        type: 'userAlreadyExist',
+        message: 'Sorry, the user already exists',
+      });
+      return;
+    }
     if (isEdit) {
       const listUpdated = usersList.map((user) => {
         if (user.firstName === userToEdit) {
@@ -54,6 +68,8 @@ const AddNewUser = () => {
       });
       dispatch(editUser(listUpdated));
       dispatch(setIsEdit({ isEdit: false }));
+      setValue('firstName', '');
+      setValue('image', '');
       return;
     }
     dispatch(tryAddUser(data));
@@ -81,8 +97,37 @@ const AddNewUser = () => {
     }
   }, [failsCounter]);
 
+  const handleDelete = () => {
+    dispatch(setIsEdit({ isEdit: false }));
+    setValue('firstName', '');
+    setValue('image', '');
+  };
+
+  const handleSetAddFriends = () => {
+    const id = routerlocation.location?.state?.id ? routerlocation.location.state.i + 1 : 0;
+    dispatch(push({
+      pathname: `/modal_layer/${id}`,
+      // eslint-disable-next-line no-restricted-globals
+      state: {
+        background: {
+          hash: '',
+          key: 'y2lpta',
+          pathname: '/add_new',
+          search: '',
+          state: undefined,
+        },
+      },
+    }));
+  };
+
   return (
     <>
+      {isUserDetail && (
+        <h1 style={{ textAlign: 'center' }}>
+          user selected:
+          {routerlocation?.state?.user}
+        </h1>
+      )}
       <AddNewContentRow>
         <Column>
           <MainTitle isDarkTheme={isDarkTheme}>
@@ -91,14 +136,9 @@ const AddNewUser = () => {
           <form onSubmit={handleSubmit(onSubmit)}>
             <StyledFormContainer>
               <label htmlFor="firstName">{t('firstName')}</label>
-              <input {...register('firstName', { required: true })} />
+              <input {...register('firstName', { required: 'The Field FirstName is requireds' })} />
+              <ErrorMessage style={{ color: 'red' }} errors={errors} name="firstName" as="p" />
               <label htmlFor="image">{t('imageUrl')}</label>
-
-              <ErrorMessage
-                errors={errors}
-                name="singleErrorInput"
-                render={() => <p>errore</p>}
-              />
               <input {...register('image')} />
               <ButtonsContainer>
                 <CustomButton
@@ -112,7 +152,7 @@ const AddNewUser = () => {
                   <CustomButton
                     text={t('cancel')}
                     border={border}
-                    onClick={handleSubmit(onSubmit)}
+                    onClick={handleDelete}
                     customFontSize="1rem"
                   />
                   )
@@ -147,7 +187,14 @@ const AddNewUser = () => {
           <MainTitle isDarkTheme={isDarkTheme}>
             {t('friends')}
           </MainTitle>
-          <List list={usersList} isRowList />
+          <CustomButton
+            text={t('addNewFriends')}
+            border={border}
+            bgColor="red"
+            onClick={handleSetAddFriends}
+            customFontSize="1rem"
+          />
+          <List list={isUserDetail ? editUserList : usersList} isRowList />
         </Column>
       </AddNewContentRow>
     </>

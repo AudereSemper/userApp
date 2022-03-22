@@ -5,6 +5,7 @@ interface IUser {
     image: string,
   } 
   isRowCard?: boolean,
+  state?: {},
 }
 
 export default IUser;

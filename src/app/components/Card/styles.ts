@@ -54,7 +54,7 @@ export const TextContainer = styled.div`
   align-items: center;
 `;
 
-export const MainTitle = styled.h3<{isDarkTheme: boolean}>`
+export const MainTitle = styled.h3<{ isDarkTheme: boolean }>`
   font-size: 22px;
   text-align: center;
   color: ${({ isDarkTheme }) => (isDarkTheme ? 'white' : 'black')};
@@ -83,8 +83,9 @@ export const StyledUnorderedList = styled.ul`
 export const StyledListItem = styled.li`
 `;
 
-export const Name = styled.p<{ isDarkTheme: boolean }>`
+export const Name = styled.p<{ isDarkTheme: boolean, isLink?: boolean }>`
   margin: 20px 10px;
+  cursor: ${({ isLink }) => (isLink ? 'pointer' : 'default')};
   color: ${({ isDarkTheme }) => (isDarkTheme ? 'white' : 'black')};
 `;
 

@@ -2,6 +2,7 @@ import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { setIsEdit } from 'src/app/pages/AddNewUser/addNewReducer';
+import { push } from 'connected-react-router';
 import IUser from './type';
 import MainInfo from './Subcomponents/MainInfo';
 import CustomButton from '../CustomButton';
@@ -30,6 +31,17 @@ const Card = ({ userInfo, isRowCard }: IUser) => {
     dispatch(setIsEdit({ isEdit: true, userToEdit }));
   };
 
+  const goToUser = (name: string) => {
+    // eslint-disable-next-line no-restricted-globals
+    const route = location.pathname.includes('/user_detail') ? name : `user_detail/${name}`;
+    dispatch(push({
+      pathname: route,
+      state: {
+        user: name,
+      },
+    }));
+  };
+
   return (
     <>
       {
@@ -47,7 +59,7 @@ const Card = ({ userInfo, isRowCard }: IUser) => {
               // textColor={regexp.test(currentPath) ? 'white' : 'black'}
               onClick={() => editUser(firstName)}
             />
-            <Name isDarkTheme={isDarkTheme}>
+            <Name isLink onClick={() => goToUser(firstName)} isDarkTheme={isDarkTheme}>
               {firstName}
             </Name>
             <SmallImage isDarkTheme={isDarkTheme} imageUrl={avatar} />
