@@ -2,7 +2,6 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import {
   MainContainer,
-  MainTitle,
   Paragraph,
 } from '../Curiosity/styles';
 
@@ -11,18 +10,16 @@ const About = () => {
 
   return (
     <MainContainer>
-      <MainTitle isDarkTheme={isDarkTheme}>
-        About
-      </MainTitle>
       <Paragraph isDarkTheme={isDarkTheme}>
-        Rick and Morty è una serie animata statunitense, creata da Justin Roiland e Dan Harmon, per Adult Swim.
-        La serie, considerata di genere cosmic horror, ha le sue origini in una parodia animata di Ritorno al futuro,
-        creata da Roiland per il festival dei cortometraggi Channel 101
-        Rick è uno scienziato che si è trasferito dalla famiglia di sua figlia Beth,
-        una cardiochirurga per cavalli. Passa la maggior parte del suo tempo inventando
-        vari gadget high-tech e portando con sé il giovane nipote Morty - e successivamente
-        anche la nipote Summer - in pericolose e fantastiche avventure attraverso il loro e altri
-        universi paralleli, alla scoperta degli orrori e delle meraviglie che li popolano.
+        Ciao!
+        Nice to meet you, my name is Federico. I&apos;m a passionate developer
+        who love everything about software development.
+        i started playing with computer in early times
+        ( when i was pretty young i was playing with my father&apos;s computer),
+        i can still remember clearly the happiness when i setup my first mame to emulate the old arcade games.
+        i&apos;m a big fan of the open source community, i&apos;m always trying to learn new things
+        and i&apos;m always trying to improve
+        my skills.
       </Paragraph>
     </MainContainer>
   );
