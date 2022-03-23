@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { store, history } from 'src/redux/store';
+import { ModalStack } from '@mattjennings/react-modal-stack';
 import { Provider } from 'react-redux';
 import App from 'src/App';
 import { ConnectedRouter } from 'connected-react-router';
@@ -11,7 +12,9 @@ ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
       <ConnectedRouter history={history}>
-        <App />
+        <ModalStack>
+          <App />
+        </ModalStack>
       </ConnectedRouter>
     </Provider>
   </React.StrictMode>,

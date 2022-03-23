@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@hookform/error-message": "^2.0.0",
+    "@mattjennings/react-modal-stack": "^1.0.4",
     "@reach/dialog": "^0.16.2",
     "@reduxjs/toolkit": "^1.7.1",
     "@testing-library/jest-dom": "^4.2.4",

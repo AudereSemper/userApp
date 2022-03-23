@@ -1,12 +1,14 @@
 import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
-import { push } from 'connected-react-router';
 import { ErrorMessage } from '@hookform/error-message';
 import { MainTitle } from 'src/app/components/Card/styles';
 import CustomButton from 'src/app/components/CustomButton';
 import { useForm } from 'react-hook-form';
 import List from 'src/app/components/List';
+import { useModals } from '@mattjennings/react-modal-stack';
+import { push } from 'connected-react-router';
+
 import {
   setIsEdit,
   editUser,
@@ -19,24 +21,34 @@ import {
   Column,
   ButtonsContainer,
 } from './style';
+import Modal from '../../components/Modal';
 
 const string = 'Add new user';
 const blackBorder = '1px solid black';
 const whiteBorder = '1px solid white';
 
-const AddNewUser = () => {
+type AddNewUserProps = {
+    open?: boolean,
+    close?: () => void
+}
+
+const AddNewUser = (props: AddNewUserProps) => {
+  const { open } = props;
+  const {
+    openModal, closeAllModals, closeModal, stack,
+  } = useModals();
   const isDarkTheme = useSelector((state: any) => state.themeSliceReducer.theme) === 'dark';
   const routerlocation = useSelector((state: any) => state.router.location);
+  const depth: string | '0' = routerlocation.query.depth || '0';
   const isUserDetail = routerlocation.pathname.includes('/user_detail');
   const usersList = useSelector((state: any) => state.addNewSliceReducer.users);
   const failsCounter = useSelector((state: any) => state.addNewSliceReducer.failsCounter);
   const retryAction = useSelector((state: any) => state.addNewSliceReducer.retryAction);
   const userToAdd = useSelector((state: any) => state.addNewSliceReducer.userToAdd);
   const editAction = useSelector((state: any) => state.addNewSliceReducer.editAction);
-  const { isEdit, userToEdit } = editAction;
+  const { isEdit: isEditing, userToEdit } = editAction;
   const dispatch = useDispatch();
   const editUserList = usersList.filter((user) => user.firstName !== routerlocation?.state?.user);
-  console.log('🚀 ~ file: index.tsx ~ line 39 ~ AddNewUser ~ editUserList', editUserList);
   const border = isDarkTheme ? whiteBorder : blackBorder;
   const { t } = useTranslation();
   const {
@@ -46,6 +58,16 @@ const AddNewUser = () => {
     setValue,
     setError,
   } = useForm({});
+
+  const isModal = open !== undefined;
+
+  const isEdit = !isModal && isEditing;
+
+  const openOneModal = () => {
+    let depthNumber = parseInt(depth || '0', 10);
+    dispatch(push(`/add_new?depth=${depthNumber += 1}`));
+    openModal(AddNewUser);
+  };
 
   const onSubmit = (data) => {
     const userAlreadyExists = usersList.find((user) => user.firstName === data.firstName);
@@ -75,6 +97,7 @@ const AddNewUser = () => {
     dispatch(tryAddUser(data));
     setValue('firstName', '');
     setValue('image', '');
+    if (isModal) openOneModal();
   };
 
   useEffect(() => {
@@ -103,24 +126,15 @@ const AddNewUser = () => {
     setValue('image', '');
   };
 
-  const handleSetAddFriends = () => {
-    const id = routerlocation.location?.state?.id ? routerlocation.location.state.i + 1 : 0;
-    dispatch(push({
-      pathname: `/modal_layer/${id}`,
-      // eslint-disable-next-line no-restricted-globals
-      state: {
-        background: {
-          hash: '',
-          key: 'y2lpta',
-          pathname: '/add_new',
-          search: '',
-          state: undefined,
-        },
-      },
-    }));
+  const fetchStackInformation = () => {
+    let str = '';
+    for (let i = 0; i < stack.length; i += 1) {
+      str += 'create new user > ';
+    }
+    return str.substring(0, str.length - 3);
   };
 
-  return (
+  const formContent = (
     <>
       {isUserDetail && (
         <h1 style={{ textAlign: 'center' }}>
@@ -191,14 +205,47 @@ const AddNewUser = () => {
             text={t('addNewFriends')}
             border={border}
             bgColor="red"
-            onClick={handleSetAddFriends}
+            onClick={() => openOneModal()}
             customFontSize="1rem"
           />
           <List list={isUserDetail ? editUserList : usersList} isRowList />
         </Column>
       </AddNewContentRow>
     </>
+
   );
+
+  useEffect(() => {
+    if (!isModal && stack?.length !== parseInt(depth, 10)) {
+      const depthNumber = parseInt(depth, 10);
+      closeAllModals();
+      for (let i = 0; i < depthNumber; i += 1) {
+        openModal(AddNewUser);
+      }
+    }
+  }, [closeAllModals, depth, isModal, openModal, stack?.length]);
+
+  const closeOneModal = () => {
+    let depthNumber = parseInt(depth || '0', 10);
+    dispatch(push(`/add_new?depth=${depthNumber -= 1}`));
+    closeModal();
+  };
+
+  if (open === false) {
+    return null;
+  }
+
+  if (isModal) {
+    return (
+      <Modal
+        onClose={() => closeOneModal()}
+        stackInformation={fetchStackInformation()}
+      >
+        {formContent}
+      </Modal>
+    );
+  }
+  return formContent;
 };
 
 export default AddNewUser;

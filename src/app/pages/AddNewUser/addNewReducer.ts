@@ -38,7 +38,6 @@ export const addNewSlice = createSlice({
     },
     setUserAddFailsCounter: (state, action: PayloadAction<number>) => {
       state.failsCounter = action.payload;
-      console.log('🚀 ~ file: addNewReducer.ts ~ line 37 ~ action.payload', typeof action.payload);
     },
   },
 });
