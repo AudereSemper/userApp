@@ -39,6 +39,9 @@ export const addNewSlice = createSlice({
     setUserAddFailsCounter: (state, action: PayloadAction<number>) => {
       state.failsCounter = action.payload;
     },
+    setNewUserList: (state, action: PayloadAction<UserType[]>) => {
+      state.users = action.payload;
+    },
   },
 });
 
@@ -50,6 +53,7 @@ export const {
   editUser,
   setUserAddFailsCounter,
   setRetryAction,
+  setNewUserList,
 } = addNewSlice.actions;
 
 export default addNewSlice.reducer;

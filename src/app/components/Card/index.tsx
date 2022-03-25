@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import { setIsEdit } from 'src/app/pages/AddNewUser/addNewReducer';
+import { setIsEdit, setNewUserList } from 'src/app/pages/AddNewUser/addNewReducer';
 import { push } from 'connected-react-router';
 import IUser from './type';
 import MainInfo from './Subcomponents/MainInfo';
@@ -17,6 +17,8 @@ const placeHolderAvatar = 'https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar
 
 const Card = ({ userInfo, isRowCard }: IUser) => {
   const isDarkTheme = useSelector((state: any) => state.themeSliceReducer.theme) === 'dark';
+  const usersList = useSelector((state: any) => state.addNewSliceReducer.users);
+  console.log('🚀 ~ file: index.tsx ~ line 21 ~ Card ~ usersList', usersList);
   const dispatch = useDispatch();
   const {
     image,
@@ -40,6 +42,13 @@ const Card = ({ userInfo, isRowCard }: IUser) => {
     }));
   };
 
+  const handleDelete = (name: string) => {
+    const removeIndex = usersList.map((item) => item.firstName).indexOf(name);
+    const result = [...usersList.slice(0, removeIndex), ...usersList.slice(removeIndex + 1)];
+    console.log('🚀 ~ file: index.tsx ~ line 48 ~ handleDelete ~ newArray', result);
+    dispatch(setNewUserList(result));
+  };
+
   return (
     <>
       {
@@ -54,8 +63,11 @@ const Card = ({ userInfo, isRowCard }: IUser) => {
           <RowContainer key={firstName} isDarkTheme={isDarkTheme}>
             <CustomButton
               text={t('edit')}
-              // textColor={regexp.test(currentPath) ? 'white' : 'black'}
               onClick={() => editUser(firstName)}
+            />
+            <CustomButton
+              text={t('delete')}
+              onClick={() => handleDelete(firstName)}
             />
             <Name isLink onClick={() => goToUser(firstName)} isDarkTheme={isDarkTheme}>
               {firstName}
